@@ -23,6 +23,7 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name        = "${var.app_name}-private-subnet-${count.index + 1}"
+    "kubernetes.io/role/internal-elb" = "1"
   }
 }
 
@@ -35,6 +36,7 @@ resource "aws_subnet" "public" {
 
   tags = {
     Name        = "${var.app_name}-public-subnet-${count.index + 1}"
+    "kubernetes.io/role/elb" = "1"
   }
 }
 
