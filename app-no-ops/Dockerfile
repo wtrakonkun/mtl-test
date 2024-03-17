@@ -7,10 +7,10 @@ RUN go mod download
 
 COPY *.go ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app-no-ops
 
 EXPOSE 8080
 
-CMD ["/docker-gs-ping"]
+CMD ["/app-no-ops"]
 
-# docker build -t docker-gs-ping:1.0 .
+# docker build -t app-no-ops:1.0 .
