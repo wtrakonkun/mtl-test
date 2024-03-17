@@ -1,0 +1,9 @@
+app:
+  name: app-no-ops
+  container:
+    image: beerwarin/app-no-ops:1.0
+    port: 8080
+  service:
+    type: NodePort
+    port: 80
+        
