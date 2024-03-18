@@ -14,3 +14,4 @@ argocd app create guestbook --repo https://github.com/wtrakonkun/mtl-test.git --
 
 ## generate k8s
 helm template . -f app-no-ops.yaml >> ../../k8s-deploy-app/k8s-deploy.yaml
+argocd app sync app-no-ops
