@@ -22,11 +22,11 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: rollouts-{{ .Values.app.name }}
+      app: {{ .Values.app.name }}
   template:
     metadata:
       labels:
-        app: rollouts-{{ .Values.app.name }}
+        app: {{ .Values.app.name }}
     spec:
       containers:
       - name: {{ .Values.app.name }}
