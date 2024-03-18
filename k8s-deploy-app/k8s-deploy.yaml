@@ -1,0 +1,105 @@
+---
+# Source: deploy-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-no-ops
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080 
+      protocol: TCP
+      name: http
+  selector:
+    app: app-no-ops
+---
+# Source: deploy-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-no-ops-canary
+spec:
+  type:  NodePort
+  ports:
+  - port: 80
+    targetPort: 8080 
+    protocol: TCP
+    name: http
+  selector:
+    app: app-no-ops
+---
+# Source: deploy-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-no-ops-stable
+spec:
+  type:  NodePort
+  ports:
+  - port: 80
+    targetPort: 8080 
+    protocol: TCP
+    name: http
+  selector:
+    app: app-no-ops
+---
+# Source: deploy-app/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-no-ops-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    # alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+    - host: app.k8s.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: app-no-ops
+              
+              port:
+                name: use-annotation
+---
+# Source: deploy-app/templates/rollout.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: rollouts-app-no-ops
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  strategy:
+    canary:
+      canaryService: app-no-ops-canary
+      stableService: app-no-ops-stable
+      trafficRouting:
+        alb:
+          ingress: app-no-ops-ingress
+          servicePort: 80
+          rootService: app-no-ops
+      steps:
+      - setWeight: 15
+      - pause: {}
+    
+  selector:
+    matchLabels:
+      app: app-no-ops
+  template:
+    metadata:
+      labels:
+        app: app-no-ops
+    spec:
+      containers:
+      - name: app-no-ops
+        image: beerwarin/app-no-ops:1.0
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
