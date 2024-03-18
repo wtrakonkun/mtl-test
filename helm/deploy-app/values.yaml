@@ -1,9 +1,10 @@
 app:
   name: app
+  deployType: single # single, canary, bluegree
   replicaCount: 1
   container:
     image: add-image-here
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     port: 80
     config: []
     env:
