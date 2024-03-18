@@ -8,7 +8,8 @@ metadata:
     # alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:
-    - http:
+    - host: app.k8s.com
+      http:
         paths:
         - path: /
           pathType: Prefix
@@ -25,4 +26,16 @@ spec:
                 {{ else }}
                 number: {{ .Values.app.service.port }}
                 {{ end }}
+    {{- if eq .Values.app.deployType "bluegreen" }}
+    - host: app-preview.k8s.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Values.app.name }}-bluegreen-preview
+              port:
+                number: {{ .Values.app.service.port }}
+    {{ end }}
                 
