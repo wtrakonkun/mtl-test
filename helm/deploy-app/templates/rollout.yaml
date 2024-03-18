@@ -5,6 +5,7 @@ metadata:
   name: rollouts-{{ .Values.app.name }}
 spec:
   replicas: {{ .Values.app.replicaCount }}
+  revisionHistoryLimit: 2
   strategy:
     {{- if eq .Values.app.deployType "canary" }}
     canary:
@@ -18,8 +19,12 @@ spec:
       steps:
       - setWeight: {{ .Values.canary.weight }}
       - pause: {}
+    {{ else if eq .Values.app.deployType "bluegreen" }}
+    blueGreen: 
+      activeService: {{ .Values.app.name }}-bluegreen-active
+      previewService: {{ .Values.app.name }}-bluegreen-preview
+      autoPromotionEnabled: false
     {{ end }}
-  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: {{ .Values.app.name }}

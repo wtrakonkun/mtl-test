@@ -14,11 +14,15 @@ spec:
           pathType: Prefix
           backend:
             service:
+              {{- if eq .Values.app.deployType "bluegreen" }}
+              name: {{ .Values.app.name }}-bluegreen-active
+              {{ else }}
               name: {{ .Values.app.name }}
+              {{ end }}
               port:
-                {{- if eq .Values.app.deployType "single" }}
-                number: {{ .Values.app.service.port }}
-                {{ else }}
+                {{- if eq .Values.app.deployType "canary" }}
                 name: use-annotation
+                {{ else }}
+                number: {{ .Values.app.service.port }}
                 {{ end }}
                 

@@ -1,6 +1,6 @@
 app:
   name: app
-  deployType: single # single, canary, bluegree
+  deployType: single # single, canary, bluegreen
   replicaCount: 1
   container:
     image: add-image-here
