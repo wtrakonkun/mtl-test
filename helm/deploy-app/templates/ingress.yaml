@@ -16,7 +16,7 @@ spec:
             service:
               name: {{ .Values.app.name }}
               port:
-                {{- if eq .Values.app.deployType "single" }}\
+                {{- if eq .Values.app.deployType "single" }}
                 number: {{ .Values.app.service.port }}
                 {{ else }}
                 name: use-annotation

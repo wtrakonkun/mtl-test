@@ -13,3 +13,5 @@ app:
   service:
     type: ClusterIP
     port: 80
+canary:
+  weight: 5

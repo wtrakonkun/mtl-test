@@ -16,7 +16,7 @@ spec:
           servicePort: {{ .Values.app.service.port }}
           rootService: {{ .Values.app.name }}
       steps:
-      - setWeight: 5
+      - setWeight: {{ .Values.canary.weight }}
       - pause: {}
     {{ end }}
   revisionHistoryLimit: 2

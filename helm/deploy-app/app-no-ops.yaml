@@ -1,10 +1,11 @@
 app:
   name: app-no-ops
-  deployType: canary # single, canary, bluegree
+  deployType: single # single, canary, bluegree
   container:
-    image: beerwarin/app-no-ops:1.0
+    image: beerwarin/app-no-ops:2.0
     port: 8080
   service:
     type: NodePort
     port: 80
-        
+canary:
+  weight: 15
