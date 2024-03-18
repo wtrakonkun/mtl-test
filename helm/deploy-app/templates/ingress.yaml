@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   name: {{ .Values.app.name }}-ingress
   annotations:
+    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/target-type: ip
 spec:
-  ingressClassName: alb
   rules:
     - http:
         paths:
@@ -16,4 +16,9 @@ spec:
             service:
               name: {{ .Values.app.name }}
               port:
+                {{- if eq .Values.app.deployType "single" }}\
                 number: {{ .Values.app.service.port }}
+                {{ else }}
+                name: use-annotation
+                {{ end }}
+                

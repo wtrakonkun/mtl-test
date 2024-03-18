@@ -1,3 +1,4 @@
+{{- if eq .Values.app.deployType "single" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,3 +24,4 @@ spec:
             - name: http
               containerPort: {{ .Values.app.container.port}}
               protocol: TCP
+{{ end }}

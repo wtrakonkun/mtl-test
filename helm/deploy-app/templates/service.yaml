@@ -13,3 +13,33 @@ spec:
       name: http
   selector:
     app: {{ .Values.app.name }}
+{{- if eq .Values.app.deployType "canary" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.app.name }}-canary
+spec:
+  type:  {{ .Values.app.service.type }}
+  ports:
+  - port: {{ .Values.app.service.port }}
+    targetPort: {{ .Values.app.container.port }} 
+    protocol: TCP
+    name: http
+  selector:
+    app: {{ .Values.app.name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.app.name }}-stable
+spec:
+  type:  {{ .Values.app.service.type }}
+  ports:
+  - port: {{ .Values.app.service.port }}
+    targetPort: {{ .Values.app.container.port }} 
+    protocol: TCP
+    name: http
+  selector:
+    app: {{ .Values.app.name }}
+{{ end }}

@@ -1,0 +1,38 @@
+{{- if ne .Values.app.deployType "single" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: rollouts-{{ .Values.app.name }}
+spec:
+  replicas: 1
+  strategy:
+    {{- if eq .Values.app.deployType "canary" }}
+    canary:
+      canaryService: {{ .Values.app.name }}-canary
+      stableService: {{ .Values.app.name }}-stable
+      trafficRouting:
+        alb:
+          ingress: {{ .Values.app.name }}-ingress
+          servicePort: {{ .Values.app.service.port }}
+          rootService: {{ .Values.app.name }}
+      steps:
+      - setWeight: 5
+      - pause: {}
+    {{ end }}
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: rollouts-{{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: rollouts-{{ .Values.app.name }}
+    spec:
+      containers:
+      - name: {{ .Values.app.name }}
+        image: {{ .Values.app.container.image }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.app.container.port}}
+          protocol: TCP
+{{ end }}
