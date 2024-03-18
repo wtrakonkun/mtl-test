@@ -1,6 +1,7 @@
 app:
   name: app-no-ops
-  deployType: single # single, canary, bluegree
+  deployType: single # single, canary, bluegreen
+  replicaCount: 1
   container:
     image: beerwarin/app-no-ops:2.0
     port: 8080
