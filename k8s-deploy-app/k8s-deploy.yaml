@@ -98,7 +98,7 @@ spec:
     spec:
       containers:
       - name: app-no-ops
-        image: beerwarin/app-no-ops:1.0
+        image: beerwarin/app-no-ops:2.0
         ports:
         - name: http
           containerPort: 8080
