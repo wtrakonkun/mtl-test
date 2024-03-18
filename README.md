@@ -7,7 +7,7 @@
 3. Helm Chart -> 
     - path : ./helm/deploy-app/ 
     - Values file : ./helm/deploy-app/app-no-ops.yaml
-        ** for choose deployment type value is deployType: # single, canary, bluegreen
+        - ** for choose deployment type value is deployType: # single, canary, bluegreen
 4. IaC Code Terraform create EKS 
     - path : ./terraform/
 5. IaC Code Terraform create policy
@@ -21,4 +21,4 @@
 7. Github Actions workflow (yml file) or diagram
     - ??
 8. Diagram
-    - 
+    - ??
