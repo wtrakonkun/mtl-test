@@ -19,6 +19,6 @@
         - helm template ./helm/deploy-app/ -f ./helm/deploy-app/app-no-ops.yaml > ./k8s-deploy-app/k8s-deploy.yaml
         - argocd app sync app-no-ops
 7. Github Actions workflow (yml file) or diagram
-    - ??
-8. Diagram
-    - ??
+    - Diagram-BuildAndDeploy.drawio.png
+8. Diagram - infrastructure on AWS
+    - Diagram-AWS-Architecture.drawio.png
