@@ -11,9 +11,9 @@
 4. IaC Code Terraform create EKS 
     - path : ./terraform/
 5. IaC Code Terraform create policy
-    - ???
+    - path : ./terraform/iam-s3-sqs.tf
 6. ArgoCD Yaml files and instruction 
-    - yaml file : /argocd/argo-app-no-ops.yaml
+    - yaml file : ./argocd/argo-app-no-ops.yaml
     - command
         - kubectl apply -f ./argocd/argo-app-no-ops.yaml
         - helm template ./helm/deploy-app/ -f ./helm/deploy-app/app-no-ops.yaml > ./k8s-deploy-app/k8s-deploy.yaml
